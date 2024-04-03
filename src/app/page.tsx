@@ -1,6 +1,32 @@
+'use client'
+import { Flower, getFlowers } from '@/api/fetch-all-flowers'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { parseISO, isAfter } from 'date-fns'
 
 export default function Home() {
+  const [flowers, setFlowers] = useState<Flower[]>([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getFlowers()
+      setFlowers(response)
+    }
+
+    fetchData()
+  }, [])
+
+  const now = parseISO(new Date().toISOString())
+  const isMidnight = isAfter(now, parseISO('2024-04-01T00:00:00-03:00'))
+
+  useEffect(() => {
+    if (isMidnight) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % flowers.length)
+    }
+  }, [isMidnight, flowers])
+
+  console.log(flowers[currentIndex].name)
   return (
     <>
       <section className="px-4 py-8 w-full flex flex-col justify-center gap-6 items-center">
@@ -11,7 +37,7 @@ export default function Home() {
           <Image
             alt="Flower Image"
             aria-label="Flower Image"
-            src="/flower.png"
+            src={'/flower.png'}
             width={200}
             height={148}
             className="h-36 w-full rounded"
