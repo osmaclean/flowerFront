@@ -17,11 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${inter.className} bg-[url('/background.svg')] bg-cover bg-center bg-no-repeat`}
-      >
-        {children}
-      </body>
+      <body className={`${inter.className}`}>{children}</body>
     </html>
   )
 }
