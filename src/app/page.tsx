@@ -1,7 +1,6 @@
 'use client'
 import { Flower, flowersService } from '@/api/flowersService'
 import { format } from 'date-fns'
-import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
 export default function Home() {
