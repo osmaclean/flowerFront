@@ -66,28 +66,30 @@ export default function Home() {
           <h1 className="text-white w-full text-center text-sm font-medium">
             Você merece flores todos os dias minha rainha 💛
           </h1>
-          <main className="bg-white rounded w-full p-4 flex flex-col justify-center items-start gap-4">
-            <img
-              alt="Flower Image"
-              aria-label="Flower Image"
-              src={flowers?.img_path}
-              width={200}
-              height={148}
-              className="h-36 w-full rounded"
-            />
-            <div className="flex flex-col justify-center items-start gap-1">
-              <h5 className="font-extrabold text-xs">Nome</h5>
-              <p className="font-normal text-xs">{flowers?.name}</p>
-            </div>
-            <div className="flex flex-col justify-center items-start gap-1">
-              <h5 className="font-extrabold text-xs">Descrição</h5>
-              <p className="font-normal text-xs">{flowers?.description}</p>
-            </div>
-            <div className="flex flex-col justify-center items-start gap-1">
-              <h5 className="font-extrabold text-xs">Frase feita com amor</h5>
-              <p className="font-normal text-xs">{flowers?.phrase}</p>
-            </div>
-          </main>
+          {flowers && (
+            <main className="bg-white rounded w-full p-4 flex flex-col justify-center items-start gap-4">
+              <img
+                alt="Flower Image"
+                aria-label="Flower Image"
+                src={flowers?.img_path}
+                width={200}
+                height={148}
+                className="h-36 w-full rounded"
+              />
+              <div className="flex flex-col justify-center items-start gap-1">
+                <h5 className="font-extrabold text-xs">Nome</h5>
+                <p className="font-normal text-xs">{flowers?.name}</p>
+              </div>
+              <div className="flex flex-col justify-center items-start gap-1">
+                <h5 className="font-extrabold text-xs">Descrição</h5>
+                <p className="font-normal text-xs">{flowers?.description}</p>
+              </div>
+              <div className="flex flex-col justify-center items-start gap-1">
+                <h5 className="font-extrabold text-xs">Frase feita com amor</h5>
+                <p className="font-normal text-xs">{flowers?.phrase}</p>
+              </div>
+            </main>
+          )}
           <footer className="w-full bg-black bg-opacity-50 rounded p-2 text-white flex flex-col justify-center items-center gap-1 font-medium text-xs">
             <p>De: Maclean ⚡</p>
             <p>Para: A mulher da minha vida 👰💒</p>
