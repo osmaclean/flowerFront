@@ -1,58 +1,66 @@
 'use client'
 import { Flower, flowersService } from '@/api/flowersService'
 import { format } from 'date-fns'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
-  const [flowers, setFlowers] = useState<Flower>()
-  const [flowerDrawn, setFlowerDrawn] = useState(true)
+  const [flowers, setFlowers] = useState<Flower | null>(null)
+  const [flowerDrawn, setFlowerDrawn] = useState(false)
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
+    console.log('Entrando na FetchData')
     const response = await flowersService.getFlowers()
 
     const flowersUsed = response.filter((flower) => flower.used === 1)
     console.log(flowersUsed)
 
+    if (flowersUsed.length === 0) handleSortFlowers()
+
     flowersUsed.forEach((flower) => {
+      console.log('Entrando no forEach')
       const newFormatDate = format(`${flower.date_used}`, 'dd/MM/yyyy')
       const today = format(new Date(), 'dd/MM/yyyy')
 
-      if (newFormatDate === today) {
-        setFlowerDrawn(true)
+      if (newFormatDate === today && !flowerDrawn) {
         setFlowers(flower)
-      } else {
-        setFlowerDrawn(false)
+        setFlowerDrawn(true)
+        console.log('Dentro do IF')
       }
+      console.log('Fora do if e dentro do forEach')
       console.log(newFormatDate === today)
+      console.log('Today: ', today)
+      console.log('New: ', newFormatDate)
     })
-  }, [])
+    if (!flowerDrawn) handleSortFlowers()
+  }
 
-  const handleSortFlowers = useCallback(async () => {
+  const handleSortFlowers = async () => {
+    console.log('Entrando na handleSortFlowers')
+    if (flowers) return
+
     const response = await flowersService.getFlowers()
     const flowersFiltered = response.filter((flower) => flower.used === 0)
 
     if (flowersFiltered.length > 0) {
+      console.log('Entrando na handleSortFlowers NO IF')
       const randomIndex = Math.floor(Math.random() * flowersFiltered.length)
       const randomFlower = flowersFiltered[randomIndex]
       await updateFlowerFunc(randomFlower.id)
       setFlowers(randomFlower)
       setFlowerDrawn(true)
     }
-  }, [])
+  }
 
   const updateFlowerFunc = async (id: string) => {
+    console.log('Entrando na updateFlowerFunc')
     await flowersService.updateFlower(id)
   }
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
-
-  useEffect(() => {
-    if (!flowerDrawn) {
-      handleSortFlowers()
-    }
-  }, [flowerDrawn, handleSortFlowers])
+    console.log('Entrando no useEffect')
+    if (flowers === null) fetchData()
+    setFlowerDrawn(false)
+  }, [])
 
   return (
     <>
