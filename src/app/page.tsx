@@ -20,7 +20,6 @@ export default function Home() {
       if (newFormatDate === today) {
         setFlowerDrawn(true)
         setFlowers(flower)
-        return false
       } else {
         setFlowerDrawn(false)
       }
